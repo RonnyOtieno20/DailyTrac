@@ -1,3 +1,4 @@
+
 import type React from 'react';
 import { DailyLogData, DailyLogField } from '@/lib/types';
 import { SectionCard } from '@/components/SectionCard';
@@ -6,6 +7,8 @@ import { ScheduleTaskItem } from './ScheduleTaskItem';
 import { scheduleItemsConfig } from './scheduleItemsConfig';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Label } from "@/components/ui/label"; // Added import
+import { cn } from '@/lib/utils';
 import {
   ClipboardList,
   CalendarClock,
@@ -24,6 +27,21 @@ interface DailyViewProps {
   onSummarize: (date: string) => Promise<void>;
   isLoadingSummary: boolean;
 }
+
+const moodOptions = [
+  { value: "😊 Happy", emoji: "😊", label: "Happy" },
+  { value: "😢 Sad", emoji: "😢", label: "Sad" },
+  { value: "😠 Angry", emoji: "😠", label: "Angry" },
+  { value: "😐 Neutral", emoji: "😐", label: "Neutral" },
+  { value: "😩 Stressed", emoji: "😩", label: "Stressed" },
+  { value: "🤩 Excited", emoji: "🤩", label: "Excited" },
+];
+
+const energyOptions = [
+  { value: "⚡️ High", emoji: "⚡️", label: "High" },
+  { value: "🔋 Medium", emoji: "🔋", label: "Medium" },
+  { value: "🔌 Low", emoji: "🔌", label: "Low" },
+];
 
 export function DailyView({ selectedDate, dayData, onUpdateField, onSummarize, isLoadingSummary }: DailyViewProps) {
   if (!dayData) {
@@ -63,12 +81,46 @@ export function DailyView({ selectedDate, dayData, onUpdateField, onSummarize, i
 
         {/* Habit Tracking Inline Fields */}
         <SectionCard title="Habit Tracking Inline Fields" icon={<ClipboardList className="text-primary" />}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <FormInput id="mood" label="Mood" value={dayData.mood} onChange={(val) => handleUpdate('mood', val)} placeholder="e.g., Happy, Tired" />
-            <FormInput id="energy" label="Energy Level" value={dayData.energy} onChange={(val) => handleUpdate('energy', val)} placeholder="e.g., High, Low, Medium" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <Label className="text-sm font-medium text-foreground/80 mb-2 block">Mood</Label>
+              <div className="flex flex-wrap gap-2">
+                {moodOptions.map(option => (
+                  <Button
+                    key={option.value}
+                    variant={dayData.mood === option.value ? "default" : "outline"}
+                    onClick={() => handleUpdate('mood', option.value)}
+                    className="flex-col h-auto p-2.5 rounded-lg shadow-sm hover:shadow-md transition-shadow"
+                    size="sm"
+                  >
+                    <span className="text-2xl mb-1">{option.emoji}</span>
+                    <span className="text-xs font-medium">{option.label}</span>
+                  </Button>
+                ))}
+              </div>
+            </div>
+            <div>
+              <Label className="text-sm font-medium text-foreground/80 mb-2 block">Energy Level</Label>
+              <div className="flex flex-wrap gap-2">
+                {energyOptions.map(option => (
+                  <Button
+                    key={option.value}
+                    variant={dayData.energy === option.value ? "default" : "outline"}
+                    onClick={() => handleUpdate('energy', option.value)}
+                    className="flex-col h-auto p-2.5 rounded-lg shadow-sm hover:shadow-md transition-shadow"
+                    size="sm"
+                  >
+                    <span className="text-2xl mb-1">{option.emoji}</span>
+                    <span className="text-xs font-medium">{option.label}</span>
+                  </Button>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="mt-4">
             <FormInput id="steps" label="Steps" type="text" value={dayData.steps} onChange={(val) => handleUpdate('steps', val)} placeholder="e.g., 10000" />
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-2 pt-2">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-2 pt-4">
             <FormCheckbox id="habit_sleep" label="Sleep" checked={dayData.habit_sleep} onCheckedChange={(val) => handleUpdate('habit_sleep', val)} />
             <FormCheckbox id="habit_exercise" label="Exercise" checked={dayData.habit_exercise} onCheckedChange={(val) => handleUpdate('habit_exercise', val)} />
             <FormCheckbox id="habit_walk" label="Walk" checked={dayData.habit_walk} onCheckedChange={(val) => handleUpdate('habit_walk', val)} />
@@ -135,3 +187,4 @@ export function DailyView({ selectedDate, dayData, onUpdateField, onSummarize, i
     </ScrollArea>
   );
 }
+
