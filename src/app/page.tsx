@@ -11,6 +11,7 @@ import { summarizeDailyLog } from '@/ai/flows/daily-summary';
 import { useToast } from "@/hooks/use-toast";
 import { Separator } from '@/components/ui/separator';
 import Image from 'next/image';
+import { Sparkles } from 'lucide-react';
 
 export default function DailyTracPage() {
   const { toast } = useToast();
