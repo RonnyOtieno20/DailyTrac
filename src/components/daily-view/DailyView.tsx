@@ -72,6 +72,10 @@ export function DailyView({ selectedDate, dayData, onUpdateField, onSummarize, i
 
   const { day_of_week, creation_date } = dayData;
 
+  const getStat = (primaryField: keyof DailyLogData, secondaryField?: keyof DailyLogData) => {
+      return dayData[primaryField] || (secondaryField ? dayData[secondaryField] : '') || 'N/A';
+  }
+
   return (
     <ScrollArea className="h-[calc(100vh-100px)] md:h-auto">
       <div className="p-4 md:p-6 space-y-6">
@@ -159,11 +163,11 @@ export function DailyView({ selectedDate, dayData, onUpdateField, onSummarize, i
         {/* Day Stats */}
         <SectionCard title="Day Stats" icon={<BarChart3 className="text-primary" />}>
           <ul className="space-y-1 text-sm">
-            <li><strong>Mood Today:</strong> {dayData.day_stats_mood || dayData.mood}</li>
-            <li><strong>Energy Level:</strong> {dayData.day_stats_energy || dayData.energy}</li>
-            <li><strong>Steps:</strong> {dayData.day_stats_steps || dayData.steps}</li>
-            <li><strong>Exercise Calories:</strong> {dayData.day_stats_exercise_calories || dayData.schedule_exercise_calories_burned}</li>
-            <li><strong>Total Calories:</strong> {dayData.day_stats_total_calories || dayData.nutrition_total_calories_consumed || dayData.nutrition_log_total_calories}</li>
+            <li><strong>Mood Today:</strong> {getStat('day_stats_mood', 'mood')}</li>
+            <li><strong>Energy Level:</strong> {getStat('day_stats_energy', 'energy')}</li>
+            <li><strong>Steps:</strong> {getStat('day_stats_steps', 'steps')}</li>
+            <li><strong>Exercise Calories:</strong> {getStat('day_stats_exercise_calories', 'schedule_exercise_calories_burned')}</li>
+            <li><strong>Total Calories:</strong> {getStat('day_stats_total_calories', 'nutrition_total_calories_consumed') || getStat('nutrition_log_total_calories')}</li>
           </ul>
         </SectionCard>
 
@@ -187,4 +191,3 @@ export function DailyView({ selectedDate, dayData, onUpdateField, onSummarize, i
     </ScrollArea>
   );
 }
-
