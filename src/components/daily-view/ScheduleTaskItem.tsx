@@ -1,5 +1,5 @@
 import type { DailyLogData, DailyLogField, ScheduleItemConfig } from '@/lib/types';
-import { FormCheckbox, FormInput } from '@/components/FormElements';
+import { FormCheckbox, FormInput, FormTextarea } from '@/components/FormElements';
 import { MultiInput } from '@/components/MultiInput';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -51,6 +51,18 @@ export function ScheduleTaskItem({ config, data, onUpdate }: ScheduleTaskItemPro
                 label={detail.label}
                 items={Array.isArray(data[detail.field]) ? data[detail.field] as string[] : []}
                 onItemsChange={(value) => onUpdate(detail.field, value)}
+                placeholder={detail.placeholder}
+              />
+            );
+          }
+           if (detail.type === 'textarea') {
+            return (
+              <FormTextarea
+                key={key}
+                id={key}
+                label={detail.label}
+                value={data[detail.field] as string}
+                onChange={(value) => onUpdate(detail.field, value)}
                 placeholder={detail.placeholder}
               />
             );

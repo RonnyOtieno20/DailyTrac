@@ -5,7 +5,7 @@ export const scheduleItemsConfig: ScheduleItemConfig[] = [
     idPrefix: "sleep", title: "Sleep", time: "00:00 - 08:00",
     details: [
       { type: "checkbox", label: "Met 8hr Goal?", field: "schedule_sleep_met_goal" },
-      { type: "input", inputType: "text", label: "Actual Sleep Hours", field: "schedule_sleep_actual_hours", placeholder: "e.g., 7.5 hours" },
+      { type: "input", inputType: "text", label: "Actual Sleep Hours", field: "schedule_sleep_actual_hours", placeholder: "e.g., 7.5" },
     ],
   },
   {
@@ -17,8 +17,8 @@ export const scheduleItemsConfig: ScheduleItemConfig[] = [
     details: [
       { type: "checkbox", label: "Workout Complete?", field: "schedule_exercise_workout_complete" },
       { type: "multi-input", label: "Exercise Type", field: "schedule_exercise_type", placeholder: "e.g., Running, Weights" },
-      { type: "input", inputType: "text", label: "Calories Burned", field: "schedule_exercise_calories_burned", placeholder: "e.g., 300" },
-      { type: "multi-input", label: "Notes/Performance", field: "schedule_exercise_notes_performance", placeholder: "How did it go?" },
+      { type: "input", inputType: "number", label: "Calories Burned", field: "schedule_exercise_calories_burned", placeholder: "e.g., 300" },
+      { type: "textarea", label: "Notes/Performance", field: "schedule_exercise_notes_performance", placeholder: "How did it go? Any new personal bests?" },
     ],
   },
   {
@@ -44,7 +44,7 @@ export const scheduleItemsConfig: ScheduleItemConfig[] = [
     idPrefix: "walk", title: "Walk", time: "11:10 - 12:10",
     details: [
       { type: "checkbox", label: "Walk Complete (>=6k steps)?", field: "schedule_walk_complete_6k_steps" },
-      { type: "input", inputType: "text", label: "Current Step Count", field: "schedule_walk_current_step_count", placeholder: "e.g., 7500" },
+      { type: "input", inputType: "number", label: "Current Step Count", field: "schedule_walk_current_step_count", placeholder: "e.g., 7500" },
     ],
   },
   {
@@ -52,7 +52,7 @@ export const scheduleItemsConfig: ScheduleItemConfig[] = [
     details: [
       { type: "checkbox", label: "Read >= 1hr?", field: "schedule_read_gte_1hr" },
       { type: "multi-input", label: "Book/Material", field: "schedule_read_book_material", placeholder: "e.g., Atomic Habits" },
-      { type: "multi-input", label: "Pages/Progress", field: "schedule_read_pages_progress", placeholder: "e.g., Ch 3-4, 20 pages" },
+      { type: "textarea", label: "Pages/Progress", field: "schedule_read_pages_progress", placeholder: "e.g., Ch 3-4, 20 pages" },
     ],
   },
   {

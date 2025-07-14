@@ -10,10 +10,10 @@ export function getInitialDailyLogData(dateStr: string): DailyLogData {
 
     mood: '',
     energy: '',
-    steps: '',
+    steps: '', // Reverted to string for single entry
     habit_sleep: false,
     habit_exercise: false,
-    habit_exercise_notes: [],
+    habit_exercise_notes: '', // Reverted to string
     habit_walk: false,
     habit_read: false,
     habit_study: false,
@@ -27,7 +27,7 @@ export function getInitialDailyLogData(dateStr: string): DailyLogData {
     schedule_exercise_workout_complete: false,
     schedule_exercise_type: [],
     schedule_exercise_calories_burned: '',
-    schedule_exercise_notes_performance: [],
+    schedule_exercise_notes_performance: '', // Reverted to string
     schedule_shower_1_done: false,
     schedule_am_grooming_done: false,
     schedule_breakfast_ate: false,
@@ -37,7 +37,7 @@ export function getInitialDailyLogData(dateStr: string): DailyLogData {
     schedule_walk_current_step_count: '',
     schedule_read_gte_1hr: false,
     schedule_read_book_material: [],
-    schedule_read_pages_progress: [],
+    schedule_read_pages_progress: '', // Reverted to string
     schedule_lunch_prep_eat_clean_done: false,
     schedule_lunch_meal_details: [],
     schedule_entertainment_1_flex_intentional: false,
@@ -63,7 +63,7 @@ export function getInitialDailyLogData(dateStr: string): DailyLogData {
     day_stats_total_calories: '',
 
     study_log_topics: [],
-    study_log_notes: [],
+    study_log_notes: '', // Reverted to string
     study_log_hours: '',
 
     nutrition_log_breakfast: [],
@@ -92,6 +92,7 @@ function formatArrayForSummary(items: string[] | string): string {
       if (items.length === 0) return 'N/A';
       return items.map(note => `- ${note}`).join('\n');
     }
+    // For single string values, just return them or N/A
     return items || 'N/A';
 };
 
