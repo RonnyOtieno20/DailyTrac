@@ -1,3 +1,4 @@
+
 import type { DailyLogData, MonthData } from './types';
 import { FULL_DAYS_OF_WEEK } from './constants';
 
@@ -12,7 +13,7 @@ export function getInitialDailyLogData(dateStr: string): DailyLogData {
     steps: '',
     habit_sleep: false,
     habit_exercise: false,
-    habit_exercise_notes: '',
+    habit_exercise_notes: [],
     habit_walk: false,
     habit_read: false,
     habit_study: false,
@@ -87,6 +88,14 @@ export function getInitialMonthData(year: number, month: number): MonthData {
 }
 
 export function formatDataForAISummary(data: DailyLogData): string {
+  const formatExerciseNotes = (notes: string[] | string) => {
+    if (Array.isArray(notes)) {
+      if (notes.length === 0) return 'N/A';
+      return notes.map(note => `- ${note}`).join('\n');
+    }
+    return notes;
+  };
+
   let logString = `---
 creation-date: ${data.creation_date}
 day: ${data.day_of_week}
@@ -99,7 +108,8 @@ tags: daily-note
 - steps:: ${data.steps}
 - habit_sleep:: ${data.habit_sleep ? 'Yes' : 'No'}
 - habit_exercise:: ${data.habit_exercise ? 'Yes' : 'No'}
-- habit_exercise_notes:: ${data.habit_exercise_notes}
+- habit_exercise_notes::
+${formatExerciseNotes(data.habit_exercise_notes)}
 - habit_walk:: ${data.habit_walk ? 'Yes' : 'No'}
 - habit_read:: ${data.habit_read ? 'Yes' : 'No'}
 - habit_study:: ${data.habit_study ? 'Yes' : 'No'}

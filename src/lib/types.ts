@@ -10,7 +10,7 @@ export interface DailyLogData {
   steps: string; // string to allow empty input, convert to number when used
   habit_sleep: boolean;
   habit_exercise: boolean;
-  habit_exercise_notes: string;
+  habit_exercise_notes: string[];
   habit_walk: boolean;
   habit_read: boolean;
   habit_study: boolean;

@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Label } from "@/components/ui/label"; // Added import
 import { cn } from '@/lib/utils';
+import { MultiInput } from '@/components/MultiInput';
 import {
   ClipboardList,
   CalendarClock,
@@ -73,7 +74,11 @@ export function DailyView({ selectedDate, dayData, onUpdateField, onSummarize, i
   const { day_of_week, creation_date } = dayData;
 
   const getStat = (primaryField: keyof DailyLogData, secondaryField?: keyof DailyLogData) => {
-      return dayData[primaryField] || (secondaryField ? dayData[secondaryField] : '') || 'N/A';
+      const primaryValue = dayData[primaryField];
+      if(Array.isArray(primaryValue)) {
+        return primaryValue.join(', ') || 'N/A';
+      }
+      return primaryValue || (secondaryField ? dayData[secondaryField] : '') || 'N/A';
   }
 
   return (
@@ -134,7 +139,13 @@ export function DailyView({ selectedDate, dayData, onUpdateField, onSummarize, i
             <FormCheckbox id="habit_groom_am" label="AM Grooming" checked={dayData.habit_groom_am} onCheckedChange={(val) => handleUpdate('habit_groom_am', val)} />
             <FormCheckbox id="habit_groom_pm" label="PM Grooming" checked={dayData.habit_groom_pm} onCheckedChange={(val) => handleUpdate('habit_groom_pm', val)} />
           </div>
-           <FormTextarea id="habit_exercise_notes" label="Exercise Notes (Inline)" value={dayData.habit_exercise_notes} onChange={(val) => handleUpdate('habit_exercise_notes', val)} placeholder="Quick notes on exercise" />
+           <MultiInput
+              id="habit_exercise_notes"
+              label="Exercise Notes (Inline)"
+              placeholder="Add an exercise note..."
+              items={Array.isArray(dayData.habit_exercise_notes) ? dayData.habit_exercise_notes : []}
+              onItemsChange={(newItems) => handleUpdate('habit_exercise_notes', newItems)}
+            />
         </SectionCard>
 
         {/* Today's Schedule */}
