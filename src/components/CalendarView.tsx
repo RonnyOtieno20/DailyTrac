@@ -1,19 +1,29 @@
 import type React from 'react';
-import { TARGET_YEAR, TARGET_MONTH, DAYS_OF_WEEK, MONTH_NAMES } from '@/lib/constants';
+import { DAYS_OF_WEEK, MONTH_NAMES } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Button } from './ui/button'; // Assuming this is not needed as it's fixed month
+import { Button } from './ui/button';
 
 interface CalendarViewProps {
   selectedDate: string; // YYYY-MM-DD
   onDateSelect: (date: string) => void;
-  // monthData: MonthData; // Potentially for highlighting days with entries
+  displayDate: Date;
+  onDisplayDateChange: (date: Date) => void;
 }
 
-export function CalendarView({ selectedDate, onDateSelect }: CalendarViewProps) {
-  const year = TARGET_YEAR;
-  const month = TARGET_MONTH; // June
+export function CalendarView({ selectedDate, onDateSelect, displayDate, onDisplayDateChange }: CalendarViewProps) {
+  const year = displayDate.getFullYear();
+  const month = displayDate.getMonth();
+
+  const handlePrevMonth = () => {
+    onDisplayDateChange(new Date(year, month - 1, 1));
+  };
+
+  const handleNextMonth = () => {
+    onDisplayDateChange(new Date(year, month + 1, 1));
+  };
+
 
   const firstDayOfMonth = new Date(year, month, 1);
   const lastDayOfMonth = new Date(year, month + 1, 0);
@@ -44,10 +54,15 @@ export function CalendarView({ selectedDate, onDateSelect }: CalendarViewProps) 
   return (
     <Card className="w-full max-w-xl mx-auto shadow-xl">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
-        <CardTitle className="text-xl font-bold text-primary">
+         <Button variant="ghost" size="icon" onClick={handlePrevMonth} aria-label="Previous month">
+          <ChevronLeft className="h-5 w-5" />
+        </Button>
+        <CardTitle className="text-xl font-bold text-primary text-center">
           {MONTH_NAMES[month]} {year}
         </CardTitle>
-        {/* Navigation buttons can be added here if dynamic month/year is needed */}
+        <Button variant="ghost" size="icon" onClick={handleNextMonth} aria-label="Next month">
+          <ChevronRight className="h-5 w-5" />
+        </Button>
       </CardHeader>
       <CardContent className="p-2">
         <div className="grid grid-cols-7 gap-1 text-center text-sm font-medium text-muted-foreground">
@@ -65,7 +80,6 @@ export function CalendarView({ selectedDate, onDateSelect }: CalendarViewProps) 
             const today = new Date();
             today.setHours(0,0,0,0);
             const isToday = date.getTime() === today.getTime();
-
 
             return (
               <button

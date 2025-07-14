@@ -1,5 +1,5 @@
 import type { DailyLogData, MonthData } from './types';
-import { FULL_DAYS_OF_WEEK, TARGET_YEAR, TARGET_MONTH } from './constants';
+import { FULL_DAYS_OF_WEEK } from './constants';
 
 export function getInitialDailyLogData(dateStr: string): DailyLogData {
   const date = new Date(dateStr + 'T00:00:00'); // Ensure correct date parsing
@@ -75,12 +75,12 @@ export function getInitialDailyLogData(dateStr: string): DailyLogData {
   };
 }
 
-export function getInitialMonthData(): MonthData {
+export function getInitialMonthData(year: number, month: number): MonthData {
   const monthData: MonthData = {};
-  const daysInMonth = new Date(TARGET_YEAR, TARGET_MONTH + 1, 0).getDate();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
 
   for (let day = 1; day <= daysInMonth; day++) {
-    const dateStr = `${TARGET_YEAR}-${String(TARGET_MONTH + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     monthData[dateStr] = getInitialDailyLogData(dateStr);
   }
   return monthData;

@@ -6,30 +6,28 @@ import { CalendarView } from '@/components/CalendarView';
 import { DailyView } from '@/components/daily-view/DailyView';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import type { MonthData, DailyLogData, DailyLogField } from '@/lib/types';
-import { LOCAL_STORAGE_KEY, TARGET_YEAR, TARGET_MONTH } from '@/lib/constants';
+import { LOCAL_STORAGE_KEY } from '@/lib/constants';
 import { getInitialMonthData, formatDataForAISummary, getInitialDailyLogData } from '@/lib/dataUtils';
 import { summarizeDailyLog } from '@/ai/flows/daily-summary';
 import { useToast } from "@/hooks/use-toast";
 import { Separator } from '@/components/ui/separator';
 import Image from 'next/image';
 import { Sparkles } from 'lucide-react';
-import { ThemeToggle } from '@/components/ThemeToggle'; // Added import
+import { ThemeToggle } from '@/components/ThemeToggle'; 
 
 export default function DailyTracPage() {
   const { toast } = useToast();
   const [allDaysData, setAllDaysData] = useLocalStorage<MonthData>(
     LOCAL_STORAGE_KEY,
-    getInitialMonthData()
+    {} // Start with empty data, will populate on demand
   );
 
   const [selectedDate, setSelectedDate] = useState<string>(() => {
     const today = new Date();
-    // Default to June 1st, 2025 if current date is outside June 2025, or today if within.
-    if (today.getFullYear() === TARGET_YEAR && today.getMonth() === TARGET_MONTH) {
-      return `${TARGET_YEAR}-${String(TARGET_MONTH + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-    }
-    return `${TARGET_YEAR}-${String(TARGET_MONTH + 1).padStart(2, '0')}-01`;
+    return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
   });
+
+  const [displayDate, setDisplayDate] = useState(() => new Date(selectedDate));
   
   const [isLoadingSummary, setIsLoadingSummary] = useState(false);
   const [isClient, setIsClient] = useState(false);
@@ -38,17 +36,10 @@ export default function DailyTracPage() {
     setIsClient(true);
     // Ensure data for selectedDate exists, or initialize it
     if (!allDaysData[selectedDate]) {
-        const initialData = getInitialMonthData(); // This might be heavy, better to init only current selected
-        if(initialData[selectedDate]) {
-            setAllDaysData(prev => ({...prev, [selectedDate]: initialData[selectedDate]}));
-        } else {
-            // If somehow selectedDate is out of initial month bounds (e.g. after code change)
-            const newDayData = getInitialDailyLogData(selectedDate);
-            setAllDaysData(prev => ({...prev, [selectedDate]: newDayData}));
-        }
+        const newDayData = getInitialDailyLogData(selectedDate);
+        setAllDaysData(prev => ({...prev, [selectedDate]: newDayData}));
     }
   }, [selectedDate, allDaysData, setAllDaysData]);
-
 
   const handleUpdateField = (date: string, field: DailyLogField, value: any) => {
     setAllDaysData(prevData => {
@@ -88,6 +79,11 @@ export default function DailyTracPage() {
     }
   };
 
+  const handleDateSelect = (dateStr: string) => {
+    setSelectedDate(dateStr);
+    setDisplayDate(new Date(dateStr));
+  };
+
   if (!isClient) {
     // Render a loading state or null during server-side rendering or before hydration
     return (
@@ -104,15 +100,15 @@ export default function DailyTracPage() {
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
       <header className="p-4 shadow-md bg-card">
-        <div className="container mx-auto flex items-center justify-between"> {/* Modified for justify-between */}
-          <div className="flex items-center gap-3"> {/* Group logo and title */}
+        <div className="container mx-auto flex items-center justify-between"> 
+          <div className="flex items-center gap-3"> 
             <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 fill-primary">
               <title>DailyTrac</title>
               <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 22C6.486 22 2 17.514 2 12S6.486 2 12 2s10 4.486 10 10-4.486 10-10 10zm-1-16h2v7h-2zm0 8h2v2h-2z M7.5 10.5h2v2h-2zm9 0h2v2h-2z M10.5 7.5h2v2h-2zm0 9h2v2h-2z"/>
             </svg>
             <h1 className="text-3xl font-bold text-primary">DailyTrac</h1>
           </div>
-          <ThemeToggle /> {/* Added ThemeToggle component */}
+          <ThemeToggle /> 
         </div>
       </header>
 
@@ -120,7 +116,9 @@ export default function DailyTracPage() {
         <div className="md:col-span-1">
           <CalendarView
             selectedDate={selectedDate}
-            onDateSelect={setSelectedDate}
+            onDateSelect={handleDateSelect}
+            displayDate={displayDate}
+            onDisplayDateChange={setDisplayDate}
           />
            <div className="mt-6 p-4 bg-card rounded-lg shadow-lg">
               <h3 className="text-lg font-semibold mb-3 text-primary flex items-center gap-2">
@@ -152,4 +150,3 @@ export default function DailyTracPage() {
     </div>
   );
 }
-
