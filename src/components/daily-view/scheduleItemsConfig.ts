@@ -16,9 +16,9 @@ export const scheduleItemsConfig: ScheduleItemConfig[] = [
     idPrefix: "exercise", title: "Exercise", time: "08:10 - 08:50",
     details: [
       { type: "checkbox", label: "Workout Complete?", field: "schedule_exercise_workout_complete" },
-      { type: "input", inputType: "text", label: "Exercise Type", field: "schedule_exercise_type", placeholder: "e.g., Running, Weights" },
+      { type: "multi-input", label: "Exercise Type", field: "schedule_exercise_type", placeholder: "e.g., Running, Weights" },
       { type: "input", inputType: "text", label: "Calories Burned", field: "schedule_exercise_calories_burned", placeholder: "e.g., 300" },
-      { type: "textarea", label: "Notes/Performance", field: "schedule_exercise_notes_performance", placeholder: "How did it go?" },
+      { type: "multi-input", label: "Notes/Performance", field: "schedule_exercise_notes_performance", placeholder: "How did it go?" },
     ],
   },
   {
@@ -33,7 +33,7 @@ export const scheduleItemsConfig: ScheduleItemConfig[] = [
     idPrefix: "breakfast", title: "Breakfast", time: "09:30 - 09:50",
     details: [
       { type: "checkbox", label: "Ate Breakfast?", field: "schedule_breakfast_ate" },
-      { type: "textarea", label: "Breakfast Details", field: "schedule_breakfast_details", placeholder: "What did you eat?" },
+      { type: "multi-input", label: "Breakfast Details", field: "schedule_breakfast_details", placeholder: "What did you eat?" },
     ],
   },
   {
@@ -51,36 +51,36 @@ export const scheduleItemsConfig: ScheduleItemConfig[] = [
     idPrefix: "read", title: "Read", time: "12:10 - 13:10",
     details: [
       { type: "checkbox", label: "Read >= 1hr?", field: "schedule_read_gte_1hr" },
-      { type: "input", inputType: "text", label: "Book/Material", field: "schedule_read_book_material", placeholder: "e.g., Atomic Habits" },
-      { type: "input", inputType: "text", label: "Pages/Progress", field: "schedule_read_pages_progress", placeholder: "e.g., Ch 3-4, 20 pages" },
+      { type: "multi-input", label: "Book/Material", field: "schedule_read_book_material", placeholder: "e.g., Atomic Habits" },
+      { type: "multi-input", label: "Pages/Progress", field: "schedule_read_pages_progress", placeholder: "e.g., Ch 3-4, 20 pages" },
     ],
   },
   {
     idPrefix: "lunch", title: "Lunch Prep/Eat/Clean", time: "13:10 - 14:10",
     details: [
       { type: "checkbox", label: "Done?", field: "schedule_lunch_prep_eat_clean_done" },
-      { type: "textarea", label: "Meal Details", field: "schedule_lunch_meal_details", placeholder: "What did you eat?" },
+      { type: "multi-input", label: "Meal Details", field: "schedule_lunch_meal_details", placeholder: "What did you eat?" },
     ],
   },
   {
     idPrefix: "ent1", title: "Entertainment Block 1 / Flex", time: "14:10 - 17:10",
     details: [
       { type: "checkbox", label: "Used Time Intentionally?", field: "schedule_entertainment_1_flex_intentional" },
-      { type: "textarea", label: "Activities", field: "schedule_entertainment_1_flex_activities", placeholder: "What did you do?" },
+      { type: "multi-input", label: "Activities", field: "schedule_entertainment_1_flex_activities", placeholder: "What did you do?" },
     ],
   },
   {
     idPrefix: "personal", title: "Personal Time / Errands / Flex", time: "17:10 - 18:10",
     details: [
       { type: "checkbox", label: "Used Time Intentionally?", field: "schedule_personal_time_errands_flex_intentional" },
-      { type: "textarea", label: "Activities", field: "schedule_personal_time_errands_flex_activities", placeholder: "What did you do?" },
+      { type: "multi-input", label: "Activities", field: "schedule_personal_time_errands_flex_activities", placeholder: "What did you do?" },
     ],
   },
   {
     idPrefix: "supper", title: "Supper Prep/Eat", time: "18:10 - 18:40",
     details: [
       { type: "checkbox", label: "Ate Supper?", field: "schedule_supper_prep_eat_ate" },
-      { type: "textarea", label: "Meal Details", field: "schedule_supper_meal_details", placeholder: "What did you eat?" },
+      { type: "multi-input", label: "Meal Details", field: "schedule_supper_meal_details", placeholder: "What did you eat?" },
     ],
   },
   {
@@ -95,14 +95,14 @@ export const scheduleItemsConfig: ScheduleItemConfig[] = [
     idPrefix: "ent2", title: "Entertainment Block 2 / Social / Flex", time: "19:55 - 23:00",
     details: [
       { type: "checkbox", label: "Used Time Intentionally?", field: "schedule_entertainment_2_social_flex_intentional" },
-      { type: "textarea", label: "Activities", field: "schedule_entertainment_2_social_flex_activities", placeholder: "What did you do?" },
+      { type: "multi-input", label: "Activities", field: "schedule_entertainment_2_social_flex_activities", placeholder: "What did you do?" },
     ],
   },
   {
     idPrefix: "winddown", title: "Wind down / Prep for sleep", time: "23:00 - 00:00",
     details: [
       { type: "checkbox", label: "Done?", field: "schedule_wind_down_prep_sleep_done" },
-      { type: "textarea", label: "Wind Down Activities", field: "schedule_wind_down_activities", placeholder: "e.g., Reading, meditation" },
+      { type: "multi-input", label: "Wind Down Activities", field: "schedule_wind_down_activities", placeholder: "e.g., Reading, meditation" },
     ],
   },
 ];

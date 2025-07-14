@@ -25,16 +25,16 @@ export interface DailyLogData {
   schedule_wakeup_prep_done: boolean; // No inputs, just for structure if needed as checkbox
 
   schedule_exercise_workout_complete: boolean;
-  schedule_exercise_type: string;
+  schedule_exercise_type: string[];
   schedule_exercise_calories_burned: string;
-  schedule_exercise_notes_performance: string;
+  schedule_exercise_notes_performance: string[];
 
   schedule_shower_1_done: boolean;
 
   schedule_am_grooming_done: boolean;
 
   schedule_breakfast_ate: boolean;
-  schedule_breakfast_details: string;
+  schedule_breakfast_details: string[];
 
   schedule_buffer_transition_done: boolean;
 
@@ -42,30 +42,30 @@ export interface DailyLogData {
   schedule_walk_current_step_count: string;
 
   schedule_read_gte_1hr: boolean;
-  schedule_read_book_material: string;
-  schedule_read_pages_progress: string;
+  schedule_read_book_material: string[];
+  schedule_read_pages_progress: string[];
 
   schedule_lunch_prep_eat_clean_done: boolean;
-  schedule_lunch_meal_details: string;
+  schedule_lunch_meal_details: string[];
 
   schedule_entertainment_1_flex_intentional: boolean;
-  schedule_entertainment_1_flex_activities: string;
+  schedule_entertainment_1_flex_activities: string[];
 
   schedule_personal_time_errands_flex_intentional: boolean;
-  schedule_personal_time_errands_flex_activities:string;
+  schedule_personal_time_errands_flex_activities:string[];
 
   schedule_supper_prep_eat_ate: boolean;
-  schedule_supper_meal_details: string;
+  schedule_supper_meal_details: string[];
 
   schedule_clean_cleaned: boolean;
 
   schedule_shower_2_pm_groom_done: boolean;
 
   schedule_entertainment_2_social_flex_intentional: boolean;
-  schedule_entertainment_2_social_flex_activities: string;
+  schedule_entertainment_2_social_flex_activities: string[];
 
   schedule_wind_down_prep_sleep_done: boolean;
-  schedule_wind_down_activities: string;
+  schedule_wind_down_activities: string[];
 
   // Throughout Day: Nutrition
   nutrition_total_calories_consumed: string;
@@ -79,15 +79,15 @@ export interface DailyLogData {
   day_stats_total_calories: string; // Will mirror 'nutrition_total_calories_consumed'
 
   // Study Log
-  study_log_topics: string;
-  study_log_notes: string;
+  study_log_topics: string[];
+  study_log_notes: string[];
   study_log_hours: string;
 
   // Nutrition Log
-  nutrition_log_breakfast: string;
-  nutrition_log_lunch: string;
-  nutrition_log_supper: string;
-  nutrition_log_snacks: string;
+  nutrition_log_breakfast: string[];
+  nutrition_log_lunch: string[];
+  nutrition_log_supper: string[];
+  nutrition_log_snacks: string[];
   nutrition_log_total_calories: string; // Sum of meals, or can mirror `nutrition_total_calories_consumed`
 
   // AI Summary
@@ -109,7 +109,7 @@ export interface ScheduleItemConfig {
     label: string;
     field: DailyLogField;
   } | {
-    type: 'input' | 'textarea';
+    type: 'input' | 'textarea' | 'multi-input';
     label: string;
     field: DailyLogField;
     inputType?: 'text' | 'number';

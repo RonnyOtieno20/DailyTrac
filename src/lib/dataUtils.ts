@@ -25,33 +25,33 @@ export function getInitialDailyLogData(dateStr: string): DailyLogData {
     schedule_sleep_actual_hours: '',
     schedule_wakeup_prep_done: false,
     schedule_exercise_workout_complete: false,
-    schedule_exercise_type: '',
+    schedule_exercise_type: [],
     schedule_exercise_calories_burned: '',
-    schedule_exercise_notes_performance: '',
+    schedule_exercise_notes_performance: [],
     schedule_shower_1_done: false,
     schedule_am_grooming_done: false,
     schedule_breakfast_ate: false,
-    schedule_breakfast_details: '',
+    schedule_breakfast_details: [],
     schedule_buffer_transition_done: false,
     schedule_walk_complete_6k_steps: false,
     schedule_walk_current_step_count: '',
     schedule_read_gte_1hr: false,
-    schedule_read_book_material: '',
-    schedule_read_pages_progress: '',
+    schedule_read_book_material: [],
+    schedule_read_pages_progress: [],
     schedule_lunch_prep_eat_clean_done: false,
-    schedule_lunch_meal_details: '',
+    schedule_lunch_meal_details: [],
     schedule_entertainment_1_flex_intentional: false,
-    schedule_entertainment_1_flex_activities: '',
+    schedule_entertainment_1_flex_activities: [],
     schedule_personal_time_errands_flex_intentional: false,
-    schedule_personal_time_errands_flex_activities: '',
+    schedule_personal_time_errands_flex_activities: [],
     schedule_supper_prep_eat_ate: false,
-    schedule_supper_meal_details: '',
+    schedule_supper_meal_details: [],
     schedule_clean_cleaned: false,
     schedule_shower_2_pm_groom_done: false,
     schedule_entertainment_2_social_flex_intentional: false,
-    schedule_entertainment_2_social_flex_activities: '',
+    schedule_entertainment_2_social_flex_activities: [],
     schedule_wind_down_prep_sleep_done: false,
-    schedule_wind_down_activities: '',
+    schedule_wind_down_activities: [],
 
     nutrition_total_calories_consumed: '',
     nutrition_water_intake: '',
@@ -62,14 +62,14 @@ export function getInitialDailyLogData(dateStr: string): DailyLogData {
     day_stats_exercise_calories: '',
     day_stats_total_calories: '',
 
-    study_log_topics: '',
-    study_log_notes: '',
+    study_log_topics: [],
+    study_log_notes: [],
     study_log_hours: '',
 
-    nutrition_log_breakfast: '',
-    nutrition_log_lunch: '',
-    nutrition_log_supper: '',
-    nutrition_log_snacks: '',
+    nutrition_log_breakfast: [],
+    nutrition_log_lunch: [],
+    nutrition_log_supper: [],
+    nutrition_log_snacks: [],
     nutrition_log_total_calories: '',
 
     ai_summary: '',
@@ -87,15 +87,15 @@ export function getInitialMonthData(year: number, month: number): MonthData {
   return monthData;
 }
 
-export function formatDataForAISummary(data: DailyLogData): string {
-  const formatExerciseNotes = (notes: string[] | string) => {
-    if (Array.isArray(notes)) {
-      if (notes.length === 0) return 'N/A';
-      return notes.map(note => `- ${note}`).join('\n');
+function formatArrayForSummary(items: string[] | string): string {
+    if (Array.isArray(items)) {
+      if (items.length === 0) return 'N/A';
+      return items.map(note => `- ${note}`).join('\n');
     }
-    return notes;
-  };
+    return items || 'N/A';
+};
 
+export function formatDataForAISummary(data: DailyLogData): string {
   let logString = `---
 creation-date: ${data.creation_date}
 day: ${data.day_of_week}
@@ -109,7 +109,7 @@ tags: daily-note
 - habit_sleep:: ${data.habit_sleep ? 'Yes' : 'No'}
 - habit_exercise:: ${data.habit_exercise ? 'Yes' : 'No'}
 - habit_exercise_notes::
-${formatExerciseNotes(data.habit_exercise_notes)}
+${formatArrayForSummary(data.habit_exercise_notes)}
 - habit_walk:: ${data.habit_walk ? 'Yes' : 'No'}
 - habit_read:: ${data.habit_read ? 'Yes' : 'No'}
 - habit_study:: ${data.habit_study ? 'Yes' : 'No'}
@@ -123,34 +123,44 @@ ${formatExerciseNotes(data.habit_exercise_notes)}
   - Actual Sleep Hours: ${data.schedule_sleep_actual_hours}
 - **08:10 - 08:50:** **Exercise**
   - [${data.schedule_exercise_workout_complete ? 'x' : ' '}] Workout Complete?
-  - Exercise Type: ${data.schedule_exercise_type}
+  - Exercise Type: 
+${formatArrayForSummary(data.schedule_exercise_type)}
   - Calories Burned: ${data.schedule_exercise_calories_burned}
-  - Notes/Performance: ${data.schedule_exercise_notes_performance}
+  - Notes/Performance: 
+${formatArrayForSummary(data.schedule_exercise_notes_performance)}
 - **09:30 - 09:50:** **Breakfast**
   - [${data.schedule_breakfast_ate ? 'x' : ' '}] Ate Breakfast?
-  - Breakfast Details: ${data.schedule_breakfast_details}
+  - Breakfast Details: 
+${formatArrayForSummary(data.schedule_breakfast_details)}
 - **11:10 - 12:10:** **Walk**
   - [${data.schedule_walk_complete_6k_steps ? 'x' : ' '}] Walk Complete (>=6k steps)?
   - Current Step Count: ${data.schedule_walk_current_step_count}
 - **12:10 - 13:10:** **Read**
   - [${data.schedule_read_gte_1hr ? 'x' : ' '}] Read >= 1hr?
-  - Book/Material: ${data.schedule_read_book_material}
-  - Pages/Progress: ${data.schedule_read_pages_progress}
+  - Book/Material: 
+${formatArrayForSummary(data.schedule_read_book_material)}
+  - Pages/Progress: 
+${formatArrayForSummary(data.schedule_read_pages_progress)}
 - **13:10 - 14:10:** **Lunch Prep/Eat/Clean**
   - [${data.schedule_lunch_prep_eat_clean_done ? 'x' : ' '}] Done?
-  - Meal Details: ${data.schedule_lunch_meal_details}
+  - Meal Details: 
+${formatArrayForSummary(data.schedule_lunch_meal_details)}
 - **14:10 - 17:10:** **Entertainment Block 1 / Flex**
   - [${data.schedule_entertainment_1_flex_intentional ? 'x' : ' '}] Used Time Intentionally?
-  - Activities: ${data.schedule_entertainment_1_flex_activities}
+  - Activities: 
+${formatArrayForSummary(data.schedule_entertainment_1_flex_activities)}
 - **17:10 - 18:10:** **Personal Time / Errands / Flex**
   - [${data.schedule_personal_time_errands_flex_intentional ? 'x' : ' '}] Used Time Intentionally?
-  - Activities: ${data.schedule_personal_time_errands_flex_activities}
+  - Activities: 
+${formatArrayForSummary(data.schedule_personal_time_errands_flex_activities)}
 - **18:10 - 18:40:** **Supper Prep/Eat**
   - [${data.schedule_supper_prep_eat_ate ? 'x' : ' '}] Ate Supper?
-  - Meal Details: ${data.schedule_supper_meal_details}
+  - Meal Details: 
+${formatArrayForSummary(data.schedule_supper_meal_details)}
 - **23:00 - 00:00:** **Wind down / Prep for sleep**
   - [${data.schedule_wind_down_prep_sleep_done ? 'x' : ' '}] Done?
-  - Wind Down Activities: ${data.schedule_wind_down_activities}
+  - Wind Down Activities: 
+${formatArrayForSummary(data.schedule_wind_down_activities)}
 - **Throughout Day:** **Nutrition**
   - Total Calories Consumed: ${data.nutrition_total_calories_consumed}
   - Water Intake: ${data.nutrition_water_intake}
@@ -166,13 +176,9 @@ ${formatExerciseNotes(data.habit_exercise_notes)}
 
 ## Study Log 📚
 - Topic(s):
-  \`\`\`
-  ${data.study_log_topics}
-  \`\`\`
+${formatArrayForSummary(data.study_log_topics)}
 - Notes/Key Takeaways:
-  \`\`\`
-  ${data.study_log_notes}
-  \`\`\`
+${formatArrayForSummary(data.study_log_notes)}
 - Hours Logged:
   \`\`\`
   ${data.study_log_hours}
@@ -180,26 +186,17 @@ ${formatExerciseNotes(data.habit_exercise_notes)}
 
 ## Nutrition Log 🍎
 - Breakfast:
-  \`\`\`
-  ${data.nutrition_log_breakfast}
-  \`\`\`
+${formatArrayForSummary(data.nutrition_log_breakfast)}
 - Lunch:
-  \`\`\`
-  ${data.nutrition_log_lunch}
-  \`\`\`
+${formatArrayForSummary(data.nutrition_log_lunch)}
 - Supper:
-  \`\`\`
-  ${data.nutrition_log_supper}
-  \`\`\`
+${formatArrayForSummary(data.nutrition_log_supper)}
 - Snacks:
-  \`\`\`
-  ${data.nutrition_log_snacks}
-  \`\`\`
+${formatArrayForSummary(data.nutrition_log_snacks)}
 - Total Calories:
   \`\`\`
   ${data.nutrition_log_total_calories}
   \`\`\`
 `;
-  // Simplified - add other schedule items as needed for a complete summary
   return logString;
 }

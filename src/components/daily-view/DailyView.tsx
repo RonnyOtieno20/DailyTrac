@@ -2,13 +2,12 @@
 import type React from 'react';
 import { DailyLogData, DailyLogField } from '@/lib/types';
 import { SectionCard } from '@/components/SectionCard';
-import { FormInput, FormCheckbox, FormTextarea } from '@/components/FormElements';
+import { FormInput, FormCheckbox } from '@/components/FormElements';
 import { ScheduleTaskItem } from './ScheduleTaskItem';
 import { scheduleItemsConfig } from './scheduleItemsConfig';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Label } from "@/components/ui/label"; // Added import
-import { cn } from '@/lib/utils';
+import { Label } from "@/components/ui/label";
 import { MultiInput } from '@/components/MultiInput';
 import {
   ClipboardList,
@@ -184,17 +183,17 @@ export function DailyView({ selectedDate, dayData, onUpdateField, onSummarize, i
 
         {/* Study Log */}
         <SectionCard title="Study Log" icon={<BookOpen className="text-primary" />}>
-          <FormTextarea id="study_log_topics" label="Topic(s)" value={dayData.study_log_topics} onChange={(val) => handleUpdate('study_log_topics', val)} placeholder="Detailed topics covered" />
-          <FormTextarea id="study_log_notes" label="Notes/Key Takeaways" value={dayData.study_log_notes} onChange={(val) => handleUpdate('study_log_notes', val)} placeholder="Key learnings and insights" />
+          <MultiInput id="study_log_topics" label="Topic(s)" placeholder="Add a topic..." items={Array.isArray(dayData.study_log_topics) ? dayData.study_log_topics : []} onItemsChange={(val) => handleUpdate('study_log_topics', val)} />
+          <MultiInput id="study_log_notes" label="Notes/Key Takeaways" placeholder="Add a note..." items={Array.isArray(dayData.study_log_notes) ? dayData.study_log_notes : []} onItemsChange={(val) => handleUpdate('study_log_notes', val)} />
           <FormInput id="study_log_hours" label="Hours Logged" value={dayData.study_log_hours} onChange={(val) => handleUpdate('study_log_hours', val)} placeholder="e.g., 2.5 hours" />
         </SectionCard>
 
         {/* Nutrition Log */}
         <SectionCard title="Nutrition Log" icon={<Apple className="text-primary" />}>
-          <FormTextarea id="nutrition_log_breakfast" label="Breakfast" value={dayData.nutrition_log_breakfast} onChange={(val) => handleUpdate('nutrition_log_breakfast', val)} placeholder="Meal and estimated calories" />
-          <FormTextarea id="nutrition_log_lunch" label="Lunch" value={dayData.nutrition_log_lunch} onChange={(val) => handleUpdate('nutrition_log_lunch', val)} placeholder="Meal and estimated calories" />
-          <FormTextarea id="nutrition_log_supper" label="Supper" value={dayData.nutrition_log_supper} onChange={(val) => handleUpdate('nutrition_log_supper', val)} placeholder="Meal and estimated calories" />
-          <FormTextarea id="nutrition_log_snacks" label="Snacks" value={dayData.nutrition_log_snacks} onChange={(val) => handleUpdate('nutrition_log_snacks', val)} placeholder="Snacks and estimated calories" />
+          <MultiInput id="nutrition_log_breakfast" label="Breakfast" placeholder="Add a food item..." items={Array.isArray(dayData.nutrition_log_breakfast) ? dayData.nutrition_log_breakfast : []} onItemsChange={(val) => handleUpdate('nutrition_log_breakfast', val)} />
+          <MultiInput id="nutrition_log_lunch" label="Lunch" placeholder="Add a food item..." items={Array.isArray(dayData.nutrition_log_lunch) ? dayData.nutrition_log_lunch : []} onItemsChange={(val) => handleUpdate('nutrition_log_lunch', val)} />
+          <MultiInput id="nutrition_log_supper" label="Supper" placeholder="Add a food item..." items={Array.isArray(dayData.nutrition_log_supper) ? dayData.nutrition_log_supper : []} onItemsChange={(val) => handleUpdate('nutrition_log_supper', val)} />
+          <MultiInput id="nutrition_log_snacks" label="Snacks" placeholder="Add a snack..." items={Array.isArray(dayData.nutrition_log_snacks) ? dayData.nutrition_log_snacks : []} onItemsChange={(val) => handleUpdate('nutrition_log_snacks', val)} />
           <FormInput id="nutrition_log_total_calories" label="Total Calories (from log)" value={dayData.nutrition_log_total_calories} onChange={(val) => handleUpdate('nutrition_log_total_calories', val)} placeholder="Sum of all meals/snacks" />
         </SectionCard>
 
