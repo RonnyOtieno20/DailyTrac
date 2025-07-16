@@ -10,7 +10,6 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Label } from "@/components/ui/label";
 import { MultiInput } from '@/components/MultiInput';
 import {
-  ClipboardList,
   CalendarClock,
   BarChart3,
   BookOpen,
@@ -20,6 +19,7 @@ import {
   Camera,
 } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Loader2 } from 'lucide-react';
 
 interface DailyViewProps {
   selectedDate: string; // YYYY-MM-DD
@@ -52,7 +52,7 @@ export function DailyView({ selectedDate, dayData, onUpdateField, onSummarize, i
           <AlertTriangle className="h-4 w-4" />
           <AlertTitle>No Data</AlertTitle>
           <AlertDescription>
-            Select a day from the calendar to view or record your habits.
+            Something went wrong. Please go back to the calendar and select a date.
           </AlertDescription>
         </Alert>
       </div>
@@ -77,13 +77,12 @@ export function DailyView({ selectedDate, dayData, onUpdateField, onSummarize, i
   }
 
   return (
-    <ScrollArea className="h-[calc(100vh-100px)] md:h-[calc(100vh-150px)]">
+    <ScrollArea className="h-[calc(100vh-160px)] md:h-[calc(100vh-150px)]">
         <div className="p-1">
             <div className="text-center mb-4">
             <h2 className="text-2xl font-bold text-primary">Daily Log for {day_of_week}, {new Date(creation_date + 'T00:00:00').toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })}</h2>
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 p-1">
-                {/* Column 2 - Main Schedule */}
                 <div className="lg:col-span-1 space-y-6">
                     <SectionCard title="Today's Schedule" icon={<CalendarClock className="text-primary" />}>
                     <div className="space-y-3 max-h-[60vh] overflow-y-auto pr-2">
@@ -96,7 +95,6 @@ export function DailyView({ selectedDate, dayData, onUpdateField, onSummarize, i
                     </SectionCard>
                 </div>
                 
-                {/* Column 1 - Snapshots & Summaries */}
                 <div className="lg:col-span-1 space-y-6">
                     <SectionCard title="Daily Snapshot" icon={<Camera className="text-primary" />}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -157,7 +155,7 @@ export function DailyView({ selectedDate, dayData, onUpdateField, onSummarize, i
                     </SectionCard>
                     <SectionCard title="AI Daily Summary" icon={<Sparkles className="text-primary" />}>
                         <Button onClick={() => onSummarize(selectedDate)} disabled={isLoadingSummary} className="w-full mb-4">
-                            {isLoadingSummary ? 'Generating Summary...' : 'Generate AI Summary'}
+                            {isLoadingSummary ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : 'Generate AI Summary'}
                         </Button>
                         {dayData.ai_summary ? (
                             <div className="p-4 bg-muted rounded-md text-sm whitespace-pre-wrap max-h-40 overflow-y-auto">{dayData.ai_summary}</div>
@@ -167,7 +165,6 @@ export function DailyView({ selectedDate, dayData, onUpdateField, onSummarize, i
                     </SectionCard>
                 </div>
                 
-                {/* Column 3 - Logs */}
                 <div className="lg:col-span-1 space-y-6">
                      <SectionCard title="Study Log" icon={<BookOpen className="text-primary" />}>
                         <MultiInput id="study_log_topics" label="Topic(s)" placeholder="Add a topic..." items={Array.isArray(dayData.study_log_topics) ? dayData.study_log_topics : []} onItemsChange={(val) => handleUpdate('study_log_topics', val)} />

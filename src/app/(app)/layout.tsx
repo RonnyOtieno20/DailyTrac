@@ -11,14 +11,16 @@ import {
   SidebarMenuItem,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { BarChartBig, LayoutDashboard, Info, FileText } from "lucide-react";
+import { BarChartBig, CalendarDays, LayoutDashboard, Info, FileText } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { format } from "date-fns";
 
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const today = format(new Date(), 'yyyy-MM-dd');
 
   return (
     <div className="flex min-h-screen">
@@ -37,8 +39,16 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               <SidebarMenuItem>
                 <Link href="/dashboard" legacyBehavior passHref>
                   <SidebarMenuButton isActive={pathname.startsWith('/dashboard')}>
+                    <CalendarDays />
+                    <span>Calendar</span>
+                  </SidebarMenuButton>
+                </Link>
+              </SidebarMenuItem>
+               <SidebarMenuItem>
+                <Link href={`/log/${today}`} legacyBehavior passHref>
+                  <SidebarMenuButton isActive={pathname.startsWith('/log')}>
                     <LayoutDashboard />
-                    <span>Daily Log</span>
+                    <span>Today's Log</span>
                   </SidebarMenuButton>
                 </Link>
               </SidebarMenuItem>
