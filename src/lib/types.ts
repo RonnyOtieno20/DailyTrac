@@ -114,3 +114,13 @@ export interface ScheduleItemConfig {
     placeholder?: string;
   }>;
 }
+
+export interface KeyStats {
+  sleepGoalMet: number;
+  totalDays: number;
+  exerciseDays: number;
+  avgCaloriesBurned: number;
+  avgWaterIntake: number;
+  avgTotalCalories: number;
+  totalStudyHours: number;
+}
