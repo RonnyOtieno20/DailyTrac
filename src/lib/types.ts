@@ -99,21 +99,20 @@ export interface MonthData {
 }
 
 export interface ScheduleItemConfig {
-  idPrefix: string;
-  title: string;
-  time: string;
-  details: Array<{
-    type: 'checkbox';
-    label: string;
-    field: DailyLogField;
-  } | {
-    type: 'input' | 'textarea' | 'multi-input';
-    label: string;
-    field: DailyLogField;
-    inputType?: 'text' | 'number';
-    placeholder?: string;
-  }>;
+  type: 'checkbox' | 'input' | 'textarea' | 'multi-input';
+  label: string;
+  field: DailyLogField;
+  inputType?: 'text' | 'number';
+  placeholder?: string;
 }
+
+export interface ScheduleTaskConfig {
+    idPrefix: string;
+    title: string;
+    time: string;
+    details: ScheduleItemConfig[];
+}
+
 
 export interface KeyStats {
   sleepGoalMet: number;

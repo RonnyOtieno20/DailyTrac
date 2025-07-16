@@ -1,7 +1,7 @@
 
-import type { ScheduleItemConfig } from '@/lib/types';
+import type { ScheduleTaskConfig } from '@/lib/types';
 
-export const scheduleItemsConfig: ScheduleItemConfig[] = [
+export const scheduleItemsConfig: ScheduleTaskConfig[] = [
   {
     idPrefix: "sleep", title: "Sleep", time: "00:00 - 08:00",
     details: [

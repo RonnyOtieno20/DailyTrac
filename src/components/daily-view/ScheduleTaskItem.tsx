@@ -1,10 +1,10 @@
-import type { DailyLogData, DailyLogField, ScheduleItemConfig } from '@/lib/types';
+import type { DailyLogData, DailyLogField, ScheduleTaskConfig } from '@/lib/types';
 import { FormCheckbox, FormInput, FormTextarea } from '@/components/FormElements';
 import { MultiInput } from '@/components/MultiInput';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface ScheduleTaskItemProps {
-  config: ScheduleItemConfig;
+  config: ScheduleTaskConfig;
   data: DailyLogData;
   onUpdate: (field: DailyLogField, value: any) => void;
 }

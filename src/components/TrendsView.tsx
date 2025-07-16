@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -50,8 +51,7 @@ const calculateStats = (days: DailyLogData[]): KeyStats => {
     let calorieDayCount = 0;
 
     let totalStudyHours = 0;
-    let studyDayCount = 0;
-
+    
     days.forEach(day => {
         if (day.schedule_sleep_met_goal) stats.sleepGoalMet++;
         if (day.habit_exercise) stats.exerciseDays++;
@@ -77,14 +77,13 @@ const calculateStats = (days: DailyLogData[]): KeyStats => {
         const studyHours = parseFloat(day.study_log_hours);
         if(!isNaN(studyHours) && studyHours > 0) {
             totalStudyHours += studyHours;
-            studyDayCount++;
         }
     });
 
     if (exerciseDayCount > 0) stats.avgCaloriesBurned = totalCaloriesBurned / exerciseDayCount;
     if (waterDayCount > 0) stats.avgWaterIntake = totalWaterIntake / waterDayCount;
     if (calorieDayCount > 0) stats.avgTotalCalories = totalCaloriesConsumed / calorieDayCount;
-    if (studyDayCount > 0) stats.totalStudyHours = totalStudyHours;
+    stats.totalStudyHours = totalStudyHours;
     
     return stats;
 }
