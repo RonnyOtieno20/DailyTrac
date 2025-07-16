@@ -12,7 +12,7 @@ import {
   SidebarTrigger,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { BarChartBig, CalendarDays, LayoutDashboard } from "lucide-react";
+import { BarChartBig, CalendarDays, LayoutDashboard, Dumbbell } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -58,6 +58,14 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                   <SidebarMenuButton isActive={pathname.startsWith('/trends')} tooltip="Trends">
                     <BarChartBig />
                     <span>Trends</span>
+                  </SidebarMenuButton>
+                </Link>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <Link href="/habits/exercise" legacyBehavior passHref>
+                  <SidebarMenuButton isActive={pathname.startsWith('/habits')} tooltip="Habit Tracker">
+                    <Dumbbell />
+                    <span>Habit Tracker</span>
                   </SidebarMenuButton>
                 </Link>
               </SidebarMenuItem>
