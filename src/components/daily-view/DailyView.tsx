@@ -17,6 +17,7 @@ import {
   Apple,
   Sparkles,
   AlertTriangle,
+  Camera,
 } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
@@ -87,8 +88,8 @@ export function DailyView({ selectedDate, dayData, onUpdateField, onSummarize, i
           <h2 className="text-2xl font-bold text-primary">Daily Log for {day_of_week}, {new Date(creation_date + 'T00:00:00').toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })}</h2>
         </div>
 
-        {/* Habit Tracking Inline Fields */}
-        <SectionCard title="Habit Tracking Inline Fields" icon={<ClipboardList className="text-primary" />}>
+        {/* Daily Snapshot */}
+        <SectionCard title="Daily Snapshot" icon={<Camera className="text-primary" />}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <Label className="text-sm font-medium text-foreground/80 mb-2 block">Mood</Label>
@@ -140,10 +141,10 @@ export function DailyView({ selectedDate, dayData, onUpdateField, onSummarize, i
           </div>
            <FormTextarea
               id="habit_exercise_notes"
-              label="Exercise Notes (Inline)"
-              placeholder="Add exercise notes here..."
+              label="Exercise Notes"
+              placeholder="Add general exercise notes here..."
               value={dayData.habit_exercise_notes}
-              onChange={(newItems) => handleUpdate('habit_exercise_notes', newItems)}
+              onChange={(val) => handleUpdate('habit_exercise_notes', val)}
             />
         </SectionCard>
 
