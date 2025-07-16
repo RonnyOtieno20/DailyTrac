@@ -12,8 +12,9 @@ import { summarizeDailyLog } from '@/ai/flows/daily-summary';
 import { useToast } from "@/hooks/use-toast";
 import { Separator } from '@/components/ui/separator';
 import Image from 'next/image';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, BarChartBig, Info } from 'lucide-react';
 import { ThemeToggle } from '@/components/ThemeToggle'; 
+import { TrendsView } from '@/components/TrendsView';
 
 export default function DailyTracPage() {
   const { toast } = useToast();
@@ -44,11 +45,27 @@ export default function DailyTracPage() {
   const handleUpdateField = (date: string, field: DailyLogField, value: any) => {
     setAllDaysData(prevData => {
       const dayData = prevData[date] || getInitialDailyLogData(date);
+      const updatedDayData = {
+        ...dayData,
+        [field]: value,
+      };
+
+      // Create a temporary 'updated' version of dayData to base our decisions on for stats.
+      const statsUpdate: Partial<DailyLogData> = {};
+      
+      if (field === 'mood') statsUpdate.day_stats_mood = value;
+      if (field === 'energy') statsUpdate.day_stats_energy = value;
+      if (field === 'schedule_walk_current_step_count') statsUpdate.day_stats_steps = value;
+      if (field === 'schedule_exercise_calories_burned') statsUpdate.day_stats_exercise_calories = value;
+      if (field === 'nutrition_total_calories_consumed' || field === 'nutrition_log_total_calories') {
+          statsUpdate.day_stats_total_calories = updatedDayData.nutrition_total_calories_consumed || updatedDayData.nutrition_log_total_calories;
+      }
+
       return {
         ...prevData,
         [date]: {
-          ...dayData,
-          [field]: value,
+          ...updatedDayData,
+          ...statsUpdate,
         },
       };
     });
@@ -113,24 +130,25 @@ export default function DailyTracPage() {
       </header>
 
       <main className="flex-grow container mx-auto p-2 md:p-4 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-        <div className="md:col-span-1">
+        <div className="md:col-span-1 space-y-6">
           <CalendarView
             selectedDate={selectedDate}
             onDateSelect={handleDateSelect}
             displayDate={displayDate}
             onDisplayDateChange={setDisplayDate}
           />
-           <div className="mt-6 p-4 bg-card rounded-lg shadow-lg">
+          <TrendsView allDaysData={allDaysData} selectedDate={selectedDate} />
+           <div className="p-4 bg-card rounded-lg shadow-lg">
               <h3 className="text-lg font-semibold mb-3 text-primary flex items-center gap-2">
-                <Sparkles size={20} />
-                About AI Summaries
+                <Info size={20} />
+                About DailyTrac
               </h3>
               <p className="text-sm text-muted-foreground">
                 This tool analyzes your daily logs to provide concise summaries of your activities, habit adherence, and overall trends. 
-                Use it to identify areas for improvement and celebrate your positive habits!
+                Use the Trends section to see weekly and monthly overviews.
               </p>
               <p className="text-xs text-muted-foreground/70 mt-2">
-                AI summaries are generated using Genkit and a Google AI model.
+                AI features are powered by Genkit and Google AI.
               </p>
             </div>
         </div>
