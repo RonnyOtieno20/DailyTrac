@@ -1,3 +1,4 @@
+
 import type { ScheduleItemConfig } from '@/lib/types';
 
 export const scheduleItemsConfig: ScheduleItemConfig[] = [
@@ -44,7 +45,7 @@ export const scheduleItemsConfig: ScheduleItemConfig[] = [
     idPrefix: "walk", title: "Walk", time: "11:10 - 12:10",
     details: [
       { type: "checkbox", label: "Walk Complete (>=6k steps)?", field: "schedule_walk_complete_6k_steps" },
-      { type: "input", inputType: "number", label: "Current Step Count", field: "schedule_walk_current_step_count", placeholder: "e.g., 7500" },
+      { type: "input", inputType: "number", label: "Steps Taken", field: "schedule_walk_current_step_count", placeholder: "e.g., 7500" },
     ],
   },
   {

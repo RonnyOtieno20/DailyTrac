@@ -10,10 +10,8 @@ export function getInitialDailyLogData(dateStr: string): DailyLogData {
 
     mood: '',
     energy: '',
-    steps: '',
     habit_sleep: false,
     habit_exercise: false,
-    habit_exercise_notes: '',
     habit_walk: false,
     habit_read: false,
     habit_study: false,
@@ -106,11 +104,8 @@ tags: daily-note
 ## Daily Snapshot 📊
 - mood:: ${data.mood}
 - energy:: ${data.energy}
-- steps:: ${data.steps}
 - habit_sleep:: ${data.habit_sleep ? 'Yes' : 'No'}
 - habit_exercise:: ${data.habit_exercise ? 'Yes' : 'No'}
-- habit_exercise_notes::
-${formatArrayForSummary(data.habit_exercise_notes)}
 - habit_walk:: ${data.habit_walk ? 'Yes' : 'No'}
 - habit_read:: ${data.habit_read ? 'Yes' : 'No'}
 - habit_study:: ${data.habit_study ? 'Yes' : 'No'}
@@ -135,7 +130,7 @@ ${formatArrayForSummary(data.schedule_exercise_notes_performance)}
 ${formatArrayForSummary(data.schedule_breakfast_details)}
 - **11:10 - 12:10:** **Walk**
   - [${data.schedule_walk_complete_6k_steps ? 'x' : ' '}] Walk Complete (>=6k steps)?
-  - Current Step Count: ${data.schedule_walk_current_step_count}
+  - Steps Taken: ${data.schedule_walk_current_step_count}
 - **12:10 - 13:10:** **Read**
   - [${data.schedule_read_gte_1hr ? 'x' : ' '}] Read >= 1hr?
   - Book/Material: 
@@ -171,7 +166,7 @@ ${formatArrayForSummary(data.schedule_wind_down_activities)}
 ## Day Stats 📊
 - Mood Today: ${data.day_stats_mood || data.mood}
 - Energy Level: ${data.day_stats_energy || data.energy}
-- Steps: ${data.day_stats_steps || data.steps}
+- Steps: ${data.day_stats_steps || data.schedule_walk_current_step_count}
 - Exercise Calories: ${data.day_stats_exercise_calories || data.schedule_exercise_calories_burned}
 - Total Calories: ${data.day_stats_total_calories || data.nutrition_total_calories_consumed || data.nutrition_log_total_calories}
 

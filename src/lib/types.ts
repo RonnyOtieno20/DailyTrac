@@ -7,10 +7,8 @@ export interface DailyLogData {
   // Habit Tracking Inline Fields
   mood: string;
   energy: string;
-  steps: string; 
   habit_sleep: boolean;
   habit_exercise: boolean;
-  habit_exercise_notes: string;
   habit_walk: boolean;
   habit_read: boolean;
   habit_study: boolean;

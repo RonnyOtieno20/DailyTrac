@@ -65,10 +65,11 @@ export function DailyView({ selectedDate, dayData, onUpdateField, onSummarize, i
     // Sync specific fields to Day Stats
     if (field === 'mood') onUpdateField(selectedDate, 'day_stats_mood', value);
     if (field === 'energy') onUpdateField(selectedDate, 'day_stats_energy', value);
-    if (field === 'steps') onUpdateField(selectedDate, 'day_stats_steps', value);
+    if (field === 'steps' || field === 'schedule_walk_current_step_count') onUpdateField(selectedDate, 'day_stats_steps', value);
     if (field === 'schedule_exercise_calories_burned') onUpdateField(selectedDate, 'day_stats_exercise_calories', value);
-    if (field === 'nutrition_total_calories_consumed') onUpdateField(selectedDate, 'day_stats_total_calories', value);
-    if (field === 'nutrition_log_total_calories') onUpdateField(selectedDate, 'day_stats_total_calories', value);
+    if (field === 'nutrition_total_calories_consumed' || field === 'nutrition_log_total_calories') {
+      onUpdateField(selectedDate, 'day_stats_total_calories', value);
+    }
   };
 
   const { day_of_week, creation_date } = dayData;
@@ -126,9 +127,6 @@ export function DailyView({ selectedDate, dayData, onUpdateField, onSummarize, i
               </div>
             </div>
           </div>
-          <div className="mt-4">
-            <FormInput id="steps" label="Steps" type="number" value={dayData.steps} onChange={(val) => handleUpdate('steps', val)} placeholder="e.g., 10000" />
-          </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-2 pt-4">
             <FormCheckbox id="habit_sleep" label="Sleep" checked={dayData.habit_sleep} onCheckedChange={(val) => handleUpdate('habit_sleep', val)} />
             <FormCheckbox id="habit_exercise" label="Exercise" checked={dayData.habit_exercise} onCheckedChange={(val) => handleUpdate('habit_exercise', val)} />
@@ -139,13 +137,6 @@ export function DailyView({ selectedDate, dayData, onUpdateField, onSummarize, i
             <FormCheckbox id="habit_groom_am" label="AM Grooming" checked={dayData.habit_groom_am} onCheckedChange={(val) => handleUpdate('habit_groom_am', val)} />
             <FormCheckbox id="habit_groom_pm" label="PM Grooming" checked={dayData.habit_groom_pm} onCheckedChange={(val) => handleUpdate('habit_groom_pm', val)} />
           </div>
-           <FormTextarea
-              id="habit_exercise_notes"
-              label="Exercise Notes"
-              placeholder="Add general exercise notes here..."
-              value={dayData.habit_exercise_notes}
-              onChange={(val) => handleUpdate('habit_exercise_notes', val)}
-            />
         </SectionCard>
 
         {/* Today's Schedule */}
@@ -176,7 +167,7 @@ export function DailyView({ selectedDate, dayData, onUpdateField, onSummarize, i
           <ul className="space-y-1 text-sm">
             <li><strong>Mood Today:</strong> {getStat('day_stats_mood', 'mood')}</li>
             <li><strong>Energy Level:</strong> {getStat('day_stats_energy', 'energy')}</li>
-            <li><strong>Steps:</strong> {getStat('day_stats_steps', 'steps')}</li>
+            <li><strong>Steps:</strong> {getStat('day_stats_steps', 'schedule_walk_current_step_count')}</li>
             <li><strong>Exercise Calories:</strong> {getStat('day_stats_exercise_calories', 'schedule_exercise_calories_burned')}</li>
             <li><strong>Total Calories:</strong> {getStat('day_stats_total_calories', 'nutrition_total_calories_consumed') || getStat('nutrition_log_total_calories')}</li>
           </ul>
