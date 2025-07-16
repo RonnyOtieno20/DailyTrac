@@ -60,15 +60,48 @@ export function DailyView({ selectedDate, dayData, onUpdateField, onSummarize, i
   }
 
   const handleUpdate = (field: DailyLogField, value: any) => {
+    // This is the primary update call for the field that was directly changed.
     onUpdateField(selectedDate, field, value);
-
-    // Sync specific fields to Day Stats
-    if (field === 'mood') onUpdateField(selectedDate, 'day_stats_mood', value);
-    if (field === 'energy') onUpdateField(selectedDate, 'day_stats_energy', value);
-    if (field === 'steps' || field === 'schedule_walk_current_step_count') onUpdateField(selectedDate, 'day_stats_steps', value);
-    if (field === 'schedule_exercise_calories_burned') onUpdateField(selectedDate, 'day_stats_exercise_calories', value);
-    if (field === 'nutrition_total_calories_consumed' || field === 'nutrition_log_total_calories') {
-      onUpdateField(selectedDate, 'day_stats_total_calories', value);
+  
+    // Now, we'll create a single update object for all the derived "Day Stats" fields
+    // to avoid multiple re-renders and ensure data consistency.
+    const statsUpdate: Partial<DailyLogData> = {};
+  
+    // Create a temporary 'updated' version of dayData to base our decisions on.
+    const updatedData = { ...dayData, [field]: value };
+  
+    // Sync Mood
+    if (field === 'mood') {
+      statsUpdate.day_stats_mood = value;
+    }
+  
+    // Sync Energy
+    if (field === 'energy') {
+      statsUpdate.day_stats_energy = value;
+    }
+  
+    // Sync Steps
+    if (field === 'schedule_walk_current_step_count') {
+      statsUpdate.day_stats_steps = value;
+    }
+  
+    // Sync Exercise Calories
+    if (field === 'schedule_exercise_calories_burned') {
+      statsUpdate.day_stats_exercise_calories = value;
+    }
+  
+    // Sync Total Calories - it can come from two different fields
+    if (field === 'nutrition_total_calories_consumed') {
+        statsUpdate.day_stats_total_calories = value;
+    } else if (field === 'nutrition_log_total_calories') {
+        statsUpdate.day_stats_total_calories = updatedData.nutrition_total_calories_consumed || value;
+    }
+  
+    // Apply all stat updates in a single batch if there are any
+    if (Object.keys(statsUpdate).length > 0) {
+      for (const [statField, statValue] of Object.entries(statsUpdate)) {
+        onUpdateField(selectedDate, statField as DailyLogField, statValue);
+      }
     }
   };
 
@@ -79,7 +112,7 @@ export function DailyView({ selectedDate, dayData, onUpdateField, onSummarize, i
       if(Array.isArray(primaryValue)) {
         return primaryValue.join(', ') || 'N/A';
       }
-      return primaryValue || (secondaryField ? dayData[secondaryField] : '') || 'N/A';
+      return primaryValue || (secondaryField && dayData[secondaryField]) || 'N/A';
   }
 
   return (
