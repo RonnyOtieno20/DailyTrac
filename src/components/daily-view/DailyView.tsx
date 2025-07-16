@@ -60,51 +60,9 @@ export function DailyView({ selectedDate, dayData, onUpdateField, onSummarize, i
   }
 
   const handleUpdate = (field: DailyLogField, value: any) => {
-    // This is the primary update call for the field that was directly changed.
     onUpdateField(selectedDate, field, value);
-  
-    // Now, we'll create a single update object for all the derived "Day Stats" fields
-    // to avoid multiple re-renders and ensure data consistency.
-    const statsUpdate: Partial<DailyLogData> = {};
-  
-    // Create a temporary 'updated' version of dayData to base our decisions on.
-    const updatedData = { ...dayData, [field]: value };
-  
-    // Sync Mood
-    if (field === 'mood') {
-      statsUpdate.day_stats_mood = value;
-    }
-  
-    // Sync Energy
-    if (field === 'energy') {
-      statsUpdate.day_stats_energy = value;
-    }
-  
-    // Sync Steps
-    if (field === 'schedule_walk_current_step_count') {
-      statsUpdate.day_stats_steps = value;
-    }
-  
-    // Sync Exercise Calories
-    if (field === 'schedule_exercise_calories_burned') {
-      statsUpdate.day_stats_exercise_calories = value;
-    }
-  
-    // Sync Total Calories - it can come from two different fields
-    if (field === 'nutrition_total_calories_consumed') {
-        statsUpdate.day_stats_total_calories = value;
-    } else if (field === 'nutrition_log_total_calories') {
-        statsUpdate.day_stats_total_calories = updatedData.nutrition_total_calories_consumed || value;
-    }
-  
-    // Apply all stat updates in a single batch if there are any
-    if (Object.keys(statsUpdate).length > 0) {
-      for (const [statField, statValue] of Object.entries(statsUpdate)) {
-        onUpdateField(selectedDate, statField as DailyLogField, statValue);
-      }
-    }
   };
-
+  
   const { day_of_week, creation_date } = dayData;
 
   const getStat = (primaryField: keyof DailyLogData, secondaryField?: keyof DailyLogData) => {
@@ -112,7 +70,10 @@ export function DailyView({ selectedDate, dayData, onUpdateField, onSummarize, i
       if(Array.isArray(primaryValue)) {
         return primaryValue.join(', ') || 'N/A';
       }
-      return primaryValue || (secondaryField && dayData[secondaryField]) || 'N/A';
+      const secondaryValue = secondaryField ? dayData[secondaryField] : undefined;
+      const displayValue = primaryValue || secondaryValue;
+
+      return displayValue || 'N/A';
   }
 
   return (
@@ -198,11 +159,11 @@ export function DailyView({ selectedDate, dayData, onUpdateField, onSummarize, i
         {/* Day Stats */}
         <SectionCard title="Day Stats" icon={<BarChart3 className="text-primary" />}>
           <ul className="space-y-1 text-sm">
-            <li><strong>Mood Today:</strong> {getStat('day_stats_mood', 'mood')}</li>
-            <li><strong>Energy Level:</strong> {getStat('day_stats_energy', 'energy')}</li>
-            <li><strong>Steps:</strong> {getStat('day_stats_steps', 'schedule_walk_current_step_count')}</li>
-            <li><strong>Exercise Calories:</strong> {getStat('day_stats_exercise_calories', 'schedule_exercise_calories_burned')}</li>
-            <li><strong>Total Calories:</strong> {getStat('day_stats_total_calories', 'nutrition_total_calories_consumed') || getStat('nutrition_log_total_calories')}</li>
+            <li><strong>Mood Today:</strong> {getStat('mood')}</li>
+            <li><strong>Energy Level:</strong> {getStat('energy')}</li>
+            <li><strong>Steps:</strong> {getStat('schedule_walk_current_step_count')}</li>
+            <li><strong>Exercise Calories:</strong> {getStat('schedule_exercise_calories_burned')}</li>
+            <li><strong>Total Calories:</strong> {getStat('nutrition_total_calories_consumed', 'nutrition_log_total_calories')}</li>
           </ul>
         </SectionCard>
 

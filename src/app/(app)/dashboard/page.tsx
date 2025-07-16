@@ -45,22 +45,9 @@ export default function DashboardPage() {
         [field]: value,
       };
 
-      const statsUpdate: Partial<DailyLogData> = {};
-      
-      if (field === 'mood') statsUpdate.day_stats_mood = value;
-      if (field === 'energy') statsUpdate.day_stats_energy = value;
-      if (field === 'schedule_walk_current_step_count') statsUpdate.day_stats_steps = value;
-      if (field === 'schedule_exercise_calories_burned') statsUpdate.day_stats_exercise_calories = value;
-      if (field === 'nutrition_total_calories_consumed' || field === 'nutrition_log_total_calories') {
-          statsUpdate.day_stats_total_calories = updatedDayData.nutrition_total_calories_consumed || updatedDayData.nutrition_log_total_calories;
-      }
-
       return {
         ...prevData,
-        [date]: {
-          ...updatedDayData,
-          ...statsUpdate,
-        },
+        [date]: updatedDayData
       };
     });
   };

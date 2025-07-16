@@ -164,11 +164,11 @@ ${formatArrayForSummary(data.schedule_wind_down_activities)}
 ---
 
 ## Day Stats 📊
-- Mood Today: ${data.day_stats_mood || data.mood}
-- Energy Level: ${data.day_stats_energy || data.energy}
-- Steps: ${data.day_stats_steps || data.schedule_walk_current_step_count}
-- Exercise Calories: ${data.day_stats_exercise_calories || data.schedule_exercise_calories_burned}
-- Total Calories: ${data.day_stats_total_calories || data.nutrition_total_calories_consumed || data.nutrition_log_total_calories}
+- Mood Today: ${data.mood}
+- Energy Level: ${data.energy}
+- Steps: ${data.schedule_walk_current_step_count}
+- Exercise Calories: ${data.schedule_exercise_calories_burned}
+- Total Calories: ${data.nutrition_total_calories_consumed || data.nutrition_log_total_calories}
 
 ## Study Log 📚
 - Topic(s):
