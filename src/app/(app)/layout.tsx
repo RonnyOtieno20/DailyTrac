@@ -12,7 +12,7 @@ import {
   SidebarTrigger,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { BarChartBig, CalendarDays, LayoutDashboard, Dumbbell } from "lucide-react";
+import { LayoutDashboard } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -39,33 +39,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             <SidebarMenu>
               <SidebarMenuItem>
                 <Link href="/dashboard" legacyBehavior passHref>
-                  <SidebarMenuButton isActive={pathname.startsWith('/dashboard')} tooltip="Calendar">
-                    <CalendarDays />
-                    <span>Calendar</span>
-                  </SidebarMenuButton>
-                </Link>
-              </SidebarMenuItem>
-               <SidebarMenuItem>
-                <Link href={`/log/${today}`} legacyBehavior passHref>
-                  <SidebarMenuButton isActive={pathname.startsWith('/log')} tooltip="Today's Log">
+                  <SidebarMenuButton isActive={pathname.startsWith('/dashboard') || pathname.startsWith('/log')} tooltip="Dashboard">
                     <LayoutDashboard />
-                    <span>Today's Log</span>
-                  </SidebarMenuButton>
-                </Link>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <Link href="/trends" legacyBehavior passHref>
-                  <SidebarMenuButton isActive={pathname.startsWith('/trends')} tooltip="Trends">
-                    <BarChartBig />
-                    <span>Trends</span>
-                  </SidebarMenuButton>
-                </Link>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <Link href="/habits/exercise" legacyBehavior passHref>
-                  <SidebarMenuButton isActive={pathname.startsWith('/habits')} tooltip="Habit Tracker">
-                    <Dumbbell />
-                    <span>Habit Tracker</span>
+                    <span>Dashboard</span>
                   </SidebarMenuButton>
                 </Link>
               </SidebarMenuItem>
