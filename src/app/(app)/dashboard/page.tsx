@@ -10,6 +10,7 @@ import { ExerciseTracker } from '@/components/habit-tracker/ExerciseTracker';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import type { MonthData } from '@/lib/types';
 import { LOCAL_STORAGE_KEY } from '@/lib/constants';
+import { MonthlyOverviewChart } from '@/components/MonthlyOverviewChart';
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -60,8 +61,11 @@ export default function DashboardPage() {
             />
             <TrendsView allDaysData={allDaysData} selectedDate={selectedDate} />
         </div>
-        <div>
-            <ExerciseTracker allDaysData={allDaysData} />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <MonthlyOverviewChart allDaysData={allDaysData} displayDate={displayDate} />
+            <div className="space-y-6">
+                 <ExerciseTracker allDaysData={allDaysData} />
+            </div>
         </div>
       </main>
       <footer className="text-center p-4 text-sm text-muted-foreground border-t border-border mt-auto">
