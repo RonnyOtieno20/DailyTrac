@@ -50,20 +50,18 @@ export default function DashboardPage() {
           </div>
        </header>
 
-      <main className="flex-grow p-4 md:p-6">
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-            <div className="xl:col-span-2 space-y-6">
-                 <CalendarView
-                    selectedDate={selectedDate}
-                    onDateSelect={handleDateSelect}
-                    displayDate={displayDate}
-                    onDisplayDateChange={setDisplayDate}
-                />
-                <TrendsView allDaysData={allDaysData} selectedDate={selectedDate} />
-            </div>
-            <div className="xl:col-span-1">
-                <ExerciseTracker allDaysData={allDaysData} />
-            </div>
+      <main className="flex-grow p-4 md:p-6 space-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <CalendarView
+                selectedDate={selectedDate}
+                onDateSelect={handleDateSelect}
+                displayDate={displayDate}
+                onDisplayDateChange={setDisplayDate}
+            />
+            <TrendsView allDaysData={allDaysData} selectedDate={selectedDate} />
+        </div>
+        <div>
+            <ExerciseTracker allDaysData={allDaysData} />
         </div>
       </main>
       <footer className="text-center p-4 text-sm text-muted-foreground border-t border-border mt-auto">
