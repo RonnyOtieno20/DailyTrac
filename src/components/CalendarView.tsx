@@ -52,7 +52,7 @@ export function CalendarView({ selectedDate, onDateSelect, displayDate, onDispla
   };
 
   return (
-    <Card className="w-full max-w-xl mx-auto shadow-xl">
+    <Card className="w-full mx-auto shadow-xl">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
          <Button variant="ghost" size="icon" onClick={handlePrevMonth} aria-label="Previous month">
           <ChevronLeft className="h-5 w-5" />

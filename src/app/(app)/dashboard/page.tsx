@@ -38,12 +38,14 @@ export default function DashboardPage() {
   return (
     <div className="min-h-full bg-background text-foreground flex flex-col">
        <header className="p-4 border-b flex items-center justify-between">
-          <h1 className="text-2xl font-bold">Select a Day</h1>
-          <ThemeToggle />
+          <h1 className="text-2xl font-bold text-primary">Select a Day</h1>
+          <div className="hidden md:block">
+            <ThemeToggle />
+          </div>
        </header>
 
       <main className="flex-grow p-4 md:p-6 flex items-center justify-center">
-        <div className="w-full max-w-2xl">
+        <div className="w-full max-w-4xl">
           <CalendarView
             selectedDate={selectedDate}
             onDateSelect={handleDateSelect}

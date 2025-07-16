@@ -38,7 +38,7 @@ export default function DailyLogPage({ params }: { params: { date: string } }) {
     setAllDaysData(prevData => {
       const dayData = prevData[date] || getInitialDailyLogData(date);
       
-      const updatedDayData = {
+      const updatedDayData: DailyLogData = {
         ...dayData,
         [field]: value,
       };
@@ -46,10 +46,12 @@ export default function DailyLogPage({ params }: { params: { date: string } }) {
       // Auto-update stats
       if(field === 'mood') updatedDayData.day_stats_mood = value;
       if(field === 'energy') updatedDayData.day_stats_energy = value;
-      if(field === 'schedule_walk_current_step_count') updatedDayData.day_stats_steps = value;
-      if(field === 'schedule_exercise_calories_burned') updatedDayData.day_stats_exercise_calories = value;
+      if(field === 'schedule_walk_current_step_count') updatedDayData.day_stats_steps = String(value);
+      if(field === 'schedule_exercise_calories_burned') updatedDayData.day_stats_exercise_calories = String(value);
+      
+      const totalCalories = value;
       if(field === 'nutrition_log_total_calories' || field === 'nutrition_total_calories_consumed') {
-          updatedDayData.day_stats_total_calories = value;
+          updatedDayData.day_stats_total_calories = String(totalCalories);
       }
 
       return {

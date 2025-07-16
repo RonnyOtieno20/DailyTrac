@@ -36,13 +36,15 @@ export default function TrendsPage() {
 
   return (
     <div className="min-h-full bg-background text-foreground flex flex-col">
-      <header className="p-4 border-b hidden md:flex items-center justify-between">
-          <h1 className="text-2xl font-bold">Trends & Summaries</h1>
-          <ThemeToggle />
+      <header className="p-4 border-b flex items-center justify-between">
+          <h1 className="text-2xl font-bold text-primary">Trends & Summaries</h1>
+          <div className="hidden md:block">
+            <ThemeToggle />
+          </div>
        </header>
 
       <main className="flex-grow p-4 md:p-6">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <TrendsView allDaysData={allDaysData} selectedDate={selectedDate} />
         </div>
       </main>

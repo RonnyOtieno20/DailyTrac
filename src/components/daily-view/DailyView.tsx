@@ -146,11 +146,11 @@ export function DailyView({ selectedDate, dayData, onUpdateField, onSummarize, i
                     </SectionCard>
                     <SectionCard title="Day Stats" icon={<BarChart3 className="text-primary" />}>
                         <ul className="space-y-1 text-sm">
-                            <li><strong>Mood Today:</strong> {dayData.day_stats_mood}</li>
-                            <li><strong>Energy Level:</strong> {dayData.day_stats_energy}</li>
-                            <li><strong>Steps:</strong> {dayData.day_stats_steps}</li>
-                            <li><strong>Exercise Calories:</strong> {dayData.day_stats_exercise_calories}</li>
-                            <li><strong>Total Calories:</strong> {dayData.day_stats_total_calories}</li>
+                            <li><strong>Mood Today:</strong> {dayData.day_stats_mood || 'N/A'}</li>
+                            <li><strong>Energy Level:</strong> {dayData.day_stats_energy || 'N/A'}</li>
+                            <li><strong>Steps:</strong> {dayData.day_stats_steps || 'N/A'}</li>
+                            <li><strong>Exercise Calories:</strong> {dayData.day_stats_exercise_calories || 'N/A'}</li>
+                            <li><strong>Total Calories:</strong> {dayData.day_stats_total_calories || 'N/A'}</li>
                         </ul>
                     </SectionCard>
                     <SectionCard title="AI Daily Summary" icon={<Sparkles className="text-primary" />}>
