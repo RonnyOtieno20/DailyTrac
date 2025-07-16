@@ -16,7 +16,7 @@ import { Button } from '@/components/ui/button';
 
 export default function DailyLogPage({ params }: { params: { date: string } }) {
   const { toast } = useToast();
-  const { date: selectedDate } = params;
+  const selectedDate = params.date;
 
   const [allDaysData, setAllDaysData] = useLocalStorage<MonthData>(
     LOCAL_STORAGE_KEY,
