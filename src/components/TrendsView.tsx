@@ -18,7 +18,9 @@ import {
   endOfMonth,
   eachDayOfInterval,
   format,
-  isValid
+  isValid,
+  isSaturday,
+  isLastDayOfMonth,
 } from 'date-fns';
 import { KeyStatsDisplay } from './KeyStatsDisplay';
 
@@ -97,11 +99,13 @@ export function TrendsView({ allDaysData, selectedDate }: TrendsViewProps) {
   const [weeklyStats, setWeeklyStats] = useState<KeyStats | null>(null);
   const [monthlyStats, setMonthlyStats] = useState<KeyStats | null>(null);
   
-  const selectedDateObj = new Date(selectedDate);
+  const selectedDateObj = new Date(selectedDate + 'T00:00:00'); // Ensure TZ consistency
   if (!isValid(selectedDateObj)) {
-    // Handle invalid date gracefully, maybe show an error or default to today
     return <div>Invalid date selected.</div>;
   }
+
+  const isTodaySaturday = isSaturday(selectedDateObj);
+  const isTodayLastDayOfMonth = isLastDayOfMonth(selectedDateObj);
 
   const getDaysInRange = (start: Date, end: Date): DailyLogData[] => {
     return eachDayOfInterval({ start, end }).map(day => {
@@ -148,8 +152,6 @@ export function TrendsView({ allDaysData, selectedDate }: TrendsViewProps) {
         const monthEnd = endOfMonth(selectedDateObj);
         const daysInMonth = getDaysInRange(monthStart, monthEnd);
 
-        // This is a simplification. We're passing daily summaries as "weekly" to the monthly flow.
-        // A better approach would be to use weekly summaries, but this works for now.
         const dailySummaries = daysInMonth.map(day => {
             return day.ai_summary ? `Summary for ${format(new Date(day.creation_date + 'T00:00:00'), 'yyyy-MM-dd')}:\n${day.ai_summary}` : `No summary for ${format(new Date(day.creation_date + 'T00:00:00'), 'yyyy-MM-dd')}.`;
         });
@@ -193,10 +195,17 @@ export function TrendsView({ allDaysData, selectedDate }: TrendsViewProps) {
             <TabsTrigger value="monthly">Monthly</TabsTrigger>
           </TabsList>
           <TabsContent value="weekly" className="mt-4 space-y-4">
-            <p className="text-sm text-center text-muted-foreground">
-              Summary for Week {weekNumber} of {year}
-            </p>
-            <Button onClick={handleGenerateWeeklySummary} disabled={isLoadingWeekly} className="w-full">
+            <div className="text-center space-y-1">
+              <p className="text-sm font-medium text-foreground">
+                Summary for Week {weekNumber} of {year}
+              </p>
+              {!isTodaySaturday && (
+                <p className="text-xs text-muted-foreground">
+                  Weekly reports can be generated on Saturdays.
+                </p>
+              )}
+            </div>
+            <Button onClick={handleGenerateWeeklySummary} disabled={isLoadingWeekly || !isTodaySaturday} className="w-full">
               {isLoadingWeekly && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               {isLoadingWeekly ? 'Generating...' : 'Generate Weekly Report'}
             </Button>
@@ -209,10 +218,17 @@ export function TrendsView({ allDaysData, selectedDate }: TrendsViewProps) {
             )}
           </TabsContent>
           <TabsContent value="monthly" className="mt-4 space-y-4">
-            <p className="text-sm text-center text-muted-foreground">
-              Summary for {monthName} {year}
-            </p>
-            <Button onClick={handleGenerateMonthlySummary} disabled={isLoadingMonthly} className="w-full">
+            <div className="text-center space-y-1">
+              <p className="text-sm font-medium text-foreground">
+                Summary for {monthName} {year}
+              </p>
+              {!isTodayLastDayOfMonth && (
+                 <p className="text-xs text-muted-foreground">
+                    Monthly reports can be generated on the last day of the month.
+                 </p>
+              )}
+            </div>
+            <Button onClick={handleGenerateMonthlySummary} disabled={isLoadingMonthly || !isTodayLastDayOfMonth} className="w-full">
                {isLoadingMonthly && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                {isLoadingMonthly ? 'Generating...' : 'Generate Monthly Report'}
             </Button>
